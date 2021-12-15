@@ -1,3 +1,5 @@
+# cmake files
+cmake-build-debug/
 # Katalog cliona
 .idea/
 # Plik do wlasnych testow
