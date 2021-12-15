@@ -1,3 +1,7 @@
+# Katalog cliona
+.idea/
+# Plik do wlasnych testow
+testy.cpp
 # Prerequisites
 *.d
 
