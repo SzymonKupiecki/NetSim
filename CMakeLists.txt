@@ -30,6 +30,7 @@ add_executable(NetSim_test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtes
 target_include_directories(NetSim_test PUBLIC
         googletest-master/googlemock/include
         googletest-master/googletest/include
+        mocks
         )
 
 add_subdirectory(googletest-master)
