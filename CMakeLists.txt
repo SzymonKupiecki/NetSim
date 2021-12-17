@@ -30,7 +30,6 @@ add_executable(my_project_test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_
 target_include_directories(my_project_test PUBLIC
         googletest-master/googlemock/include
         googletest-master/googletest/include
-        mocks
         )
 
 add_subdirectory(googletest-master)
