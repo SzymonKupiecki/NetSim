@@ -5,8 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wconversion)
 
-include_directories(include
-                    test)
+include_directories(include)
 
 set(SOURCE_FILES
         src/factory.cpp
@@ -19,7 +18,21 @@ set(SOURCE_FILES
         src/types.cpp
         )
 
-
-add_executable(own_test ${SOURCE_FILES} testy.cpp)
+add_executable(own_tests ${SOURCE_FILES} testy.cpp)
 add_executable(main ${SOURCE_FILES} main.cpp)
-add_executable(PackageQueue ${SOURCE_FILES} test/PackageQueue_tests.cpp)
+
+set(SOURCE_FILES_TESTS
+        test/testing_tests.cpp
+        )
+
+add_executable(my_project_test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)
+
+target_include_directories(my_project_test PUBLIC
+        googletest-master/googlemock/include
+        googletest-master/googletest/include
+        mocks
+        )
+
+add_subdirectory(googletest-master)
+
+target_link_libraries(my_project_test gmock)
