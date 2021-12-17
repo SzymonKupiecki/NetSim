@@ -25,13 +25,13 @@ set(SOURCE_FILES_TESTS
         test/testing_tests.cpp
         )
 
-add_executable(my_project_test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)
+add_executable(NetSim_test ${SOURCE_FILES} ${SOURCES_FILES_TESTS} test/main_gtest.cpp)
 
-target_include_directories(my_project_test PUBLIC
+target_include_directories(NetSim_test PUBLIC
         googletest-master/googlemock/include
         googletest-master/googletest/include
         )
 
 add_subdirectory(googletest-master)
 
-target_link_libraries(my_project_test gmock)
+target_link_libraries(NetSim_test gmock)
