@@ -12,9 +12,22 @@ Package::Package() {
     }
     // jesli nie
     else{
-        // w przypadku pierwszej inicjalizacji albo na wypadek inicjalizacji np. Package(2) bez Package(1)
-        if(assigned_IDs.empty() or *assigned_IDs.begin() != 1){id_ = 1;}
-        else{id_ = *assigned_IDs.end() + 1;}
+        auto last_element = assigned_IDs.end();
+        if(not assigned_IDs.empty()){last_element--;} //wskaznik na ostatni element
+        // w przypadku pierwszej inicjalizacji
+        if(assigned_IDs.empty()){id_ = 1;}
+        //na wypadek wczesniejszej inicjalizacji np. Package(2) bez Package(1)
+        else if(assigned_IDs.size() != *last_element){
+            for(ElementID i = 1; i < *last_element; i++){
+                if(assigned_IDs.count(i) == 0){
+                    id_ = i;
+                    break;
+                }
+            }
+        }
+        else{
+            id_ = *last_element + 1;
+        }
         assigned_IDs.insert(id_); // set nie przechowuje duplikatow
     }
 }
