@@ -15,7 +15,6 @@ set(SOURCE_FILES
         src/reports.cpp
         src/simulation.cpp
         src/storage_types.cpp
-        src/types.cpp
         )
 
 add_executable(own_tests ${SOURCE_FILES} testy.cpp)
@@ -24,6 +23,7 @@ add_executable(main ${SOURCE_FILES} main.cpp)
 set(SOURCE_FILES_TESTS
         test/testing_tests.cpp
         test/test_package.cpp
+        test/test_storage_types.cpp
         )
 
 add_executable(NetSim_test ${SOURCE_FILES} ${SOURCE_FILES_TESTS} test/main_gtest.cpp)
