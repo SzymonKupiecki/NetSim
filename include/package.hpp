@@ -1,3 +1,5 @@
+#ifndef PACKAGE_H
+#define PACKAGE_H
 #include <set>
 #include <utility>
 #include "types.hpp"
@@ -18,3 +20,4 @@ private:
     static std::set<ElementID> assigned_IDs;
     static std::set<ElementID> freed_IDs;
 };
+#endif
