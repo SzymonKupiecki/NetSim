@@ -27,7 +27,7 @@ void ReciverPreferences::remove_receiver(IPackageReceiver* r){
 }
 
 IPackageReceiver* ReciverPreferences::choose_receiver(){
-    double random = probability_value(); //warosc od 0 do 1
+    double random = (*probability_value)(); //warosc od 0 do 1 //TODO: sprawdzic funkcjonalnosc
     double dystrybuanta_1 = 0;
     double dystrybuanta_2 = 0;
 

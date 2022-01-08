@@ -18,7 +18,7 @@ public:
     using preferences_t = std::map<IPackageReceiver*, double>; // nie wiem po co te aliasy
     using const_iterator = preferences_t::const_iterator;
 
-    ReciverPreferences(ProbabilityGenerator pg){probability_value = std::move(pg); } //sprawdzic czy w konstruktorze nie ma tez byc preferencji
+    explicit ReciverPreferences(ProbabilityGenerator* pg = &probability_generator): probability_value(pg){} //sprawdzic czy w konstruktorze nie ma tez byc preferencji
 
     [[nodiscard]] typename ReciverPreferences::const_iterator cbegin() const {return preferences.cbegin(); }
     [[nodiscard]] typename ReciverPreferences::const_iterator cend() const {return preferences.cend(); }
@@ -32,7 +32,7 @@ public:
 
 private: //TODO: czy zostawic prywatne
     preferences_t preferences; //sluzy do przechowywania odbiorcow i przawdopodobienstwa wybrania odbiorcy
-    ProbabilityGenerator probability_value;  //"uchwyt" do funkcji zdefiniowanej w helpers do wyboru liczby losowej
+    ProbabilityGenerator* probability_value;  //"uchwyt" do funkcji zdefiniowanej w helpers do wyboru liczby losowej
 };
 
 #endif
