@@ -5,4 +5,6 @@
 
 using ElementID = unsigned int;
 using ProbabilityGenerator = std::function<double()>; // nie weim czy powinno to sie tu znajdowac (uzywane w helpers)
+using Time = unsigned int;
+using TimeOffset = unsigned int;
 #endif
