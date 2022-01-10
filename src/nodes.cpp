@@ -3,35 +3,35 @@
 void ReceiverPreferences::add_receiver(IPackageReceiver* r){
     // funkcja na razie ma nie zajmowac sie odbiorcami z konkretnym prawdopodobienstwem,
     // tak samo w remove_receiver:
-    double prawdopodobienstwo = 1/( double(preferences.size()) + 1.0 );
+    double prawdopodobienstwo = 1/(double(preferences_.size()) + 1.0 );
 
-    for(auto &x: preferences){
+    for(auto &x: preferences_){
         x.second = prawdopodobienstwo;
     }
 
-    preferences.insert(std::pair<IPackageReceiver*, double>(r, prawdopodobienstwo));
+    preferences_.insert(std::pair<IPackageReceiver*, double>(r, prawdopodobienstwo));
 }
 
 void ReceiverPreferences::remove_receiver(IPackageReceiver* r){
-    //funkcja dziala rowniez gdy r nie ma w mapie preferences
-    if(preferences.find(r) != preferences.end()){
-        preferences.erase(r);
+    //funkcja dziala rowniez gdy r nie ma w mapie preferences_
+    if(preferences_.find(r) != preferences_.end()){
+        preferences_.erase(r);
 
         // funkcja na razie ma nie zajmowac sie odbiorcami z konkretnym prawdopodobienstwem, wiec:
-        double prawdopodobienstwo = 1/( double(preferences.size()));
+        double prawdopodobienstwo = 1/( double(preferences_.size()));
 
-        for(auto &x: preferences){
+        for(auto &x: preferences_){
             x.second = prawdopodobienstwo;
         }
     }
 }
 
 IPackageReceiver* ReceiverPreferences::choose_receiver(){
-    double random = (*probability_value)(); //warosc od 0 do 1 //TODO: sprawdzic funkcjonalnosc
+    double random = (*probability_value_)(); //warosc od 0 do 1 //TODO: sprawdzic funkcjonalnosc
     double dystrybuanta_1 = 0;
     double dystrybuanta_2 = 0;
 
-    for(auto reciver: preferences){
+    for(auto reciver: preferences_){
         dystrybuanta_1 = dystrybuanta_2;
         dystrybuanta_2 += reciver.second;
 
@@ -42,24 +42,14 @@ IPackageReceiver* ReceiverPreferences::choose_receiver(){
     return nullptr; //cos poszlo nie tak
 }
 
-void PackageSender::send_package(){
-    IPackageReceiver* chosen_reciver = receiver_preferences_.choose_receiver(); //wybiera odbiorce
-
-    Package package_to_send = std::move(sending_bufor.value()); //z tego co czytalem std::move nie dziala poprawnie dla std::optional
-    sending_bufor.reset();
-
-    *chosen_reciver.receive_package(package_to_send);
-}
-
-
-void PackageSender::push_package(Package&& package){
-    if(sending_bufor.has_value()){
-        //TODO: implementacja
-    } else{
-        sending_bufor = std::move(package);
-    }
-}
-
+//void PackageSender::send_package(){
+//    IPackageReceiver* chosen_reciver = receiver_preferences_.choose_receiver(); //wybiera odbiorce
+//
+//    Package package_to_send = std::move(sending_bufor_.value()); //z tego co czytalem std::move nie dziala poprawnie dla std::optional
+//    sending_bufor_.reset();
+//
+////    chosen_reciver->receive_package(std::move(package_to_send));
+//}
 
 
 Ramp::Ramp(ElementID id, TimeOffset di){
