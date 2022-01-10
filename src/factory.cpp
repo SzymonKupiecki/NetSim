@@ -55,7 +55,7 @@ bool Factory::does_receiver_has_reachable_storehouse(PackageSender* sender,std::
         }
         else{
             auto receiver_ptr = dynamic_cast<IPackageReceiver*>(receiver);
-            auto worker_ptr = static_cast<Worker*>(receiver_ptr);//NORMALNIE POWINNO DZIALAC Z DYNAMIC TYLKO Z PELNA IMPLEMENTACJA
+            auto worker_ptr = dynamic_cast<Worker*>(receiver_ptr);
             auto sendrecv_ptr = dynamic_cast<PackageSender*>(worker_ptr);
             if(sendrecv_ptr == sender){continue;}
             does_sender_has_at_least_one_receiver_other_than_himself = true;

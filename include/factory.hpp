@@ -26,11 +26,11 @@ public:
     [[nodiscard]] typename NodeCollection<Node>::const_iterator end() const {return nodes_.cend();}
 
     [[nodiscard]] NodeCollection<Node>::iterator find_by_id(ElementID id) {return std::find_if(nodes_.begin(), nodes_.end(), [id](Node& node){return node.get_id() == id;});}
-    [[nodiscard]] NodeCollection<Node>::const_iterator find_by_id(ElementID id) const{return std::find_if(nodes_.cbegin(), nodes_.end(), [id](const Node& node){return node.get_id() == id;});}
+    [[nodiscard]] NodeCollection<Node>::const_iterator find_by_id(ElementID id) const{return std::find_if(nodes_.cbegin(), nodes_.end(), [id](const Node& node) {return node.get_id() == id;});}
 
     void remove_by_id(ElementID id) {if(find_by_id(id) != nodes_.end()){nodes_.erase(find_by_id(id));}}
 
-    void add(Node&& node) {nodes_.emplace_back(std::move(node));}
+    void add(Node&& node) {nodes_.push_back(std::move(node));}
 
 protected:
     std::list<Node> nodes_;
