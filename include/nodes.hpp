@@ -8,6 +8,7 @@
 #include <optional>
 #include "helpers.hpp"
 #include "package.hpp"
+#include "storage_types.hpp"
 
 class IPackageReceiver{
     public:
@@ -76,8 +77,6 @@ private:
     TimeOffset di_ramp;
 
     ElementID ramp_id_;
-    static std::set<ElementID> ramp_assigned_IDs;
-    static std::set<ElementID> ramp_freed_IDs;
 };
 class Worker: public PackageSender, public IPackageReceiver, public IPackageQueue{
 public:

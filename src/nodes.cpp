@@ -51,35 +51,8 @@ void PackageSender::send_package(){
     chosen_reciver->receive_package(std::move(package_to_send));
 }
 
-// Inicjalizacja statycznych pol klasy
-std::set<ElementID> ramp_assigned_IDs;
-std::set<ElementID> ramp_freed_IDs;
-
 Ramp::Ramp(ElementID id, TimeOffset di){
-    //praktycznie przepisane z package
-    if(not ramp_freed_IDs.empty()){
-        ramp_id_ = *ramp_freed_IDs.begin();
-        ramp_freed_IDs.erase(ramp_freed_IDs.begin());
-    }
-    else{
-        auto last_element = ramp_assigned_IDs.end();
-        if(not ramp_assigned_IDs.empty()){last_element--;} //wskaznik na ostatni element
-        // w przypadku pierwszej inicjalizacji
-        if(ramp_assigned_IDs.empty()){ramp_id_ = 1;}
-            //na wypadek wczesniejszej inicjalizacji np. Package(2) bez Package(1)
-        else if(ramp_assigned_IDs.size() != *last_element){
-            for(ElementID i = 1; i < *last_element; i++){
-                if(ramp_assigned_IDs.count(i) == 0){
-                    ramp_id_ = i;
-                    break;
-                }
-            }
-        }
-        else{
-            ramp_id_ = *last_element + 1;
-        }
-        ramp_assigned_IDs.insert(ramp_id_); // set nie przechowuje duplikatow
-    }
+    ramp_id_ = id;
     di_ramp = di; //czas miedzy dostawami
 }
 
