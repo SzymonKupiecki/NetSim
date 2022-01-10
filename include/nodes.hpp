@@ -10,6 +10,10 @@
 #include "package.hpp"
 #include "storage_types.hpp"
 
+enum class ReceiverType{
+    WORKER, STOREHOUSE
+};
+
 class IPackageReceiver{
     public:
     virtual void receive_package(Package&& p) = 0;
@@ -65,12 +69,11 @@ class Ramp: public PackageSender{
 public:
     Ramp(ElementID id, TimeOffset di);
 
-    ~Ramp(); //TODO: test
+    ~Ramp() = default;
     void deliver_goods(Time t); //TODO: test, zamienic na modulo
     [[nodiscard]] const TimeOffset& get_delivery_interval() const {return di_ramp; };
     [[nodiscard]] const ElementID& get_id() const {return ramp_id_; };
 
-    //TODO: implementacja przetworzenia
 
 private:
     Time last_delivery_time;
@@ -96,7 +99,7 @@ protected:
 
 class Storehouse: public IPackageReceiver, public IPackageStockpile{
 public:
-    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d)
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
 protected:
     ElementID id_;
     std::unique_ptr<IPackageStockpile> d_;

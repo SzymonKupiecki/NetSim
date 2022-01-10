@@ -56,9 +56,6 @@ Ramp::Ramp(ElementID id, TimeOffset di){
     di_ramp = di; //czas miedzy dostawami
 }
 
-Ramp::~Ramp() {
-    ramp_freed_IDs.insert(ramp_id_);
-}
 void Ramp::deliver_goods(Time t) {
     if((t - last_delivery_time) == di_ramp){ //sprawdza czy w danej turze jest dostawa
         Package new_package; //tworzy nowy produkt
