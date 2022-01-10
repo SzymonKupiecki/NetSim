@@ -67,19 +67,18 @@ protected:
 
 class Ramp: public PackageSender{
 public:
-    Ramp(ElementID id, TimeOffset di): ramp_id_(id), di_ramp(di) {}
+    Ramp(ElementID id, TimeOffset di): PackageSender(), ramp_id_(id), di_ramp(di) {}
 
 
     ~Ramp() = default;
-    void deliver_goods(Time t); //TODO: test, zamienic na modulo
+    void deliver_goods(Time t);
     [[nodiscard]] const TimeOffset& get_delivery_interval() const {return di_ramp; };
     [[nodiscard]] const ElementID& get_id() const {return ramp_id_; };
 
 
+
 private:
     ElementID ramp_id_;
-
-    Time last_delivery_time;
     TimeOffset di_ramp;
 };
 class Worker: public PackageSender, public IPackageReceiver{
