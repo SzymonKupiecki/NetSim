@@ -10,6 +10,12 @@
 #include "package.hpp"
 
 class IPackageReceiver{
+    public:
+    virtual void receive_package(Package&& p) = 0;
+    virtual  ElementID get_id() = 0;
+#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
+    virtual void get_receiver_type();
+#endif
 };
 
 class ReceiverPreferences{
@@ -72,5 +78,30 @@ private:
     ElementID ramp_id_;
     static std::set<ElementID> ramp_assigned_IDs;
     static std::set<ElementID> ramp_freed_IDs;
+};
+class Worker: public PackageSender, public IPackageReceiver, public IPackageQueue{
+public:
+    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q = std::make_unique<PackageQueue>(PackageQueueType::FIFO));
+    do_work(Time t);
+    TimeOffset get_processing_duration() {return pd_;};
+    Time get_package_processing_start_time() {return t_;};
+
+protected:
+    ElementID id_;
+    TimeOffset pd_;
+    std::unique_ptr<IPackageQueue> q_;
+    Time t_;
+    static std::set<ElementID> assigned_IDs;
+    static std::set<ElementID> freed_IDs;
+};
+
+class Storehouse: public IPackageReceiver, public IPackageStockpile{
+public:
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d)
+protected:
+    ElementID id_;
+    std::unique_ptr<IPackageStockpile> d_;
+    static std::set<ElementID> assigned_IDs;
+    static std::set<ElementID> freed_IDs;
 };
 #endif
