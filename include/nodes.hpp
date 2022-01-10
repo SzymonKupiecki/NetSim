@@ -84,7 +84,7 @@ private:
 class Worker: public PackageSender, public IPackageReceiver, public IPackageQueue{
 public:
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q = std::make_unique<PackageQueue>(PackageQueueType::FIFO));
-    do_work(Time t);
+    void do_work(Time t);
     TimeOffset get_processing_duration() {return pd_;};
     Time get_package_processing_start_time() {return t_;};
 
