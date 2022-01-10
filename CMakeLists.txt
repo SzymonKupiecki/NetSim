@@ -3,12 +3,12 @@ project(NetSim)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wconversion)
+#add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wconversion)
 
 include_directories(include)
 
 set(SOURCE_FILES
-        src/factory.cpp
+#        src/factory.cpp
         src/helpers.cpp
         src/nodes.cpp
         src/package.cpp
@@ -24,6 +24,7 @@ set(SOURCE_FILES_TESTS
         test/testing_tests.cpp
         test/test_package.cpp
         test/test_storage_types.cpp
+        test/test_nodes.cpp
         )
 
 add_executable(NetSim_test ${SOURCE_FILES} ${SOURCE_FILES_TESTS} test/main_gtest.cpp)

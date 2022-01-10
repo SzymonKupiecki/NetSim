@@ -33,7 +33,7 @@ public:
     explicit IPackageQueue(PackageQueueType type) : IPackageStockpile(), queue_type_(type) {}
 
     PackageQueueType get_queue_type() {return queue_type_;}
-    virtual Package pop() = 0;
+    Package pop();
 
 protected:
     PackageQueueType queue_type_;
@@ -42,8 +42,6 @@ protected:
 class PackageQueue: public IPackageQueue{
 public:
     explicit PackageQueue(PackageQueueType type) : IPackageQueue(type) {}
-
-    Package pop() override;
 };
 
 #endif

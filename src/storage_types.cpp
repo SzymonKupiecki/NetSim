@@ -1,6 +1,6 @@
 #include "storage_types.hpp"
 
-Package PackageQueue::pop() {
+Package IPackageQueue::pop() {
     switch(queue_type_){
         case PackageQueueType::FIFO: {
             Package p = std::move(queue_.front());
