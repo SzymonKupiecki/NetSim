@@ -42,15 +42,18 @@ IPackageReceiver* ReceiverPreferences::choose_receiver(){
     return nullptr; //cos poszlo nie tak
 }
 
-//void PackageSender::send_package(){
-//    IPackageReceiver* chosen_reciver = receiver_preferences_.choose_receiver(); //wybiera odbiorce
-//
-//    Package package_to_send = std::move(sending_bufor_.value()); //z tego co czytalem std::move nie dziala poprawnie dla std::optional
-//    sending_bufor_.reset();
-//
-////    chosen_reciver->receive_package(std::move(package_to_send));
-//}
+void PackageSender::send_package(){
+    IPackageReceiver* chosen_reciver = receiver_preferences_.choose_receiver(); //wybiera odbiorce
 
+    Package package_to_send = std::move(sending_bufor_.value()); //z tego co czytalem std::move nie dziala poprawnie dla std::optional
+    sending_bufor_.reset();
+
+    chosen_reciver->receive_package(std::move(package_to_send));
+}
+
+// Inicjalizacja statycznych pol klasy
+std::set<ElementID> ramp_assigned_IDs;
+std::set<ElementID> ramp_freed_IDs;
 
 Ramp::Ramp(ElementID id, TimeOffset di){
     //praktycznie przepisane z package

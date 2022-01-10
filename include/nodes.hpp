@@ -43,7 +43,7 @@ public:
 
     PackageSender() = default;
 
-//    void send_package(); //wysyla przetworzona wartosc do odbiorcy //TODO: implementacja/poprawnosc
+    void send_package(); //wysyla przetworzona wartosc do odbiorcy //TODO: implementacja/poprawnosc
     void push_package(Package&& package){ sending_bufor_ = std::move(package); }; //sluzy do wstawiania wartosci do bufora //TODO: test
     const std::optional<Package>& get_sending_buffer(){ return sending_bufor_; };
 
