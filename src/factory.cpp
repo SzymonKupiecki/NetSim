@@ -11,10 +11,10 @@ void Factory::remove_receiver(NodeCollection<Node>& collection, ElementID id) {
     //usuwanie polaczen miedzy dostawcami
     //i_package_ptr jednoznacznie definiuje typ obiektu
     for (auto &worker: workers_) {
-        worker.remove_receiver(i_package_ptr);
+        worker.receiver_preferences_.remove_receiver(i_package_ptr);
     }
     for (auto &ramp: ramps_) {
-        ramp.remove_receiver(i_package_ptr);
+        ramp.receiver_preferences_.remove_receiver(i_package_ptr);
     }
     //usuwanie samego obiektu
     if(object_type == ReceiverType::WORKER){workers_.remove_by_id(id);}
@@ -47,9 +47,9 @@ bool Factory::does_receiver_has_reachable_storehouse(PackageSender* sender,std::
     if(colour[sender] == NodeColour::VERIFIED){return true;}
     //oznacz jako odwiedzony
     colour[sender] = NodeColour::VISITED;
-    if(sender->get_preferences().empty()){throw(std::logic_error("Sender doesnt have receivers others than himself"));}
+    if(sender->receiver_preferences_.get_preferences().empty()){throw(std::logic_error("Sender doesnt have receivers others than himself"));}
     bool does_sender_has_at_least_one_receiver_other_than_himself = false;
-    for(const auto& [receiver, trash]: sender->get_preferences()){
+    for(const auto& [receiver, trash]: sender->receiver_preferences_.get_preferences()){
         if(receiver->get_receiver_type() == ReceiverType::STOREHOUSE){
             does_sender_has_at_least_one_receiver_other_than_himself = true;
         }
@@ -88,6 +88,6 @@ void Factory::do_package_passing() {
 
 void Factory::do_work(Time t) {
     for(auto& worker: workers_){
-        worker.do_work();
+        worker.do_work(t);
     }
 }
