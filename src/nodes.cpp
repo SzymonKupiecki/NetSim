@@ -68,36 +68,11 @@ void Ramp::deliver_goods(Time t) {
 std::set<ElementID> Worker::assigned_IDs;
 std::set<ElementID> Worker::freed_IDs;
 
-Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q = std::make_unique<PackageQueue>(PackageQueueType::FIFO)){
-    id_ = id;
-    pd_ = pd;
-    q_ = q;
-    //jesli sa jakies zwolnione ID
-    if(not freed_IDs.empty()){
-        id_ = *freed_IDs.begin(); // set jest posortowany
-        freed_IDs.erase(freed_IDs.begin()); //usuwanie zajetego ID
-    }
-        // jesli nie
-    else{
-        auto last_element = assigned_IDs.end();
-        if(not assigned_IDs.empty()){last_element--;} //wskaznik na ostatni element
-        // w przypadku pierwszej inicjalizacji
-        if(assigned_IDs.empty()){id_ = 1;}
-            //na wypadek wczesniejszej inicjalizacji np. Worker(2) bez Worker(1)
-        else if(assigned_IDs.size() != *last_element){
-            for(ElementID i = 1; i < *last_element; i++){
-                if(assigned_IDs.count(i) == 0){
-                    id_ = i;
-                    break;
-                }
-            }
-        }
-        else{
-            id_ = *last_element + 1;
-        }
-        assigned_IDs.insert(id_); // set nie przechowuje duplikatow
-    }
-}
+//Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q = std::make_unique<IPackageQueue>(PackageQueueType::FIFO)){
+//    id_ = id;
+//    pd_ = pd;
+//    q_ = q;
+//}
 Worker::Worker(ElementID id){
     id_ = id;
     assigned_IDs.insert(id);

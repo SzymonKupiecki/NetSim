@@ -83,18 +83,16 @@ private:
 };
 class Worker: public PackageSender, public IPackageReceiver, public IPackageQueue{
 public:
-    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q = std::make_unique<PackageQueue>(PackageQueueType::FIFO));
+    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): id_(id), pd_(pd), q_(q) {}
     void do_work(Time t);
-    TimeOffset get_processing_duration() {return pd_;};
-    Time get_package_processing_start_time() {return t_;};
+    TimeOffset get_processing_duration() const{return pd_;};
+    Time get_package_processing_start_time() const{return t_;};
 
 protected:
     ElementID id_;
     TimeOffset pd_;
     std::unique_ptr<IPackageQueue> q_;
     Time t_;
-    static std::set<ElementID> assigned_IDs;
-    static std::set<ElementID> freed_IDs;
 };
 
 class Storehouse: public IPackageReceiver, public IPackageStockpile{
