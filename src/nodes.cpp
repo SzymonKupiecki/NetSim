@@ -42,11 +42,21 @@ IPackageReceiver* ReceiverPreferences::choose_receiver(){
     return nullptr; //cos poszlo nie tak
 }
 
+void PackageSender::send_package(){
+    IPackageReceiver* chosen_reciver = receiver_preferences_.choose_receiver(); //wybiera odbiorce
+
+    Package package_to_send = std::move(sending_bufor.value()); //z tego co czytalem std::move nie dziala poprawnie dla std::optional
+    sending_bufor.reset();
+
+    *chosen_reciver.receive_package(package_to_send);
+}
+
+
 void PackageSender::push_package(Package&& package){
     if(sending_bufor.has_value()){
         //TODO: implementacja
     } else{
-        sending_bufor = *package;
+        sending_bufor = std::move(package);
     }
 }
 
@@ -86,6 +96,8 @@ Ramp::~Ramp() {
 void Ramp::deliver_goods(Time t) {
     if((t - last_delivery_time) == di_ramp){ //sprawdza czy w danej turze jest dostawa
         Package new_package; //tworzy nowy produkt
-        Ramp::push_package(std::move(new_package));
+        Ramp::push_package(std::move(new_package)); //przekazuje do bufora (funkcjonalnosc package sender)
+
+        last_delivery_time = t; //nowy czas dostawy
     }
 }

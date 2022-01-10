@@ -44,9 +44,9 @@ public:
 
     PackageSender() = default;
 
-    void send_package(void); //wysyla przetworzona wartosc do bufora //TODO: implementacja
-    void push_package(Package&& package); //sluzy do wstawiania wartosci do bufora //TODO: implementacja
-    //TODO: get_sending_buffer(void) : std::optional<Package>& {query
+    void send_package(); //wysyla przetworzona wartosc do odbiorcy //TODO: implementacja/poprawnosc
+    void push_package(Package&& package); //sluzy do wstawiania wartosci do bufora //TODO: sprawdzic poprawnosc
+    const std::optional<Package>& get_sending_buffer(){ return sending_bufor; };
 
     ReceiverPreferences receiver_preferences_;
 
@@ -63,6 +63,8 @@ public:
     void deliver_goods(Time t); //TODO: test
     [[nodiscard]] const TimeOffset& get_delivery_interval() const {return di_ramp; };
     [[nodiscard]] const ElementID& get_id() const {return ramp_id_; };
+
+    //TODO: implementacja przetworzenia
 
 private:
     Time last_delivery_time;
