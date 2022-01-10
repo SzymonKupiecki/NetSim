@@ -3,13 +3,12 @@
 void ReceiverPreferences::add_receiver(IPackageReceiver* r){
     // funkcja na razie ma nie zajmowac sie odbiorcami z konkretnym prawdopodobienstwem,
     // tak samo w remove_receiver:
-    double probability = 1 / (double(preferences_.size()) + 1.0 );
-
+    preferences_.insert(std::make_pair(r,0));
+    auto length = double(std::size(preferences_));
     for(auto &x: preferences_){
-        x.second = probability;
+        x.second = 1/length;
     }
 
-    preferences_.insert(std::pair<IPackageReceiver*, double>(r, probability));
 }
 
 void ReceiverPreferences::remove_receiver(IPackageReceiver* r){
@@ -28,14 +27,19 @@ void ReceiverPreferences::remove_receiver(IPackageReceiver* r){
 
 IPackageReceiver* ReceiverPreferences::choose_receiver(){
     double random = (*probability_value_)(); //warosc od 0 do 1 //TODO: sprawdzic funkcjonalnosc
-    double distributor_2 = 0;
-
-    for(auto reciver: preferences_){
-        double distributor_1 = distributor_2;
-        distributor_2 += reciver.second;
-
-        if(distributor_1 < random and random < distributor_2){
-            return reciver.first;
+    std::vector<double> steps{0};
+    double sth;
+    for(auto& reciver: preferences_){
+        sth += reciver.second;
+        steps.push_back(sth);
+    }
+    for(std::size_t i=0; i<steps.size(); i++){
+        if(steps[i] < random && random <= steps[i+1]) {
+            std::size_t sth2 = 0;
+            for (auto &receiver: preferences_) {
+                if (sth2 == i) { return receiver.first; }
+                else { sth2++; }
+            }
         }
     }
     return nullptr; //cos poszlo nie tak

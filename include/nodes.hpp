@@ -27,7 +27,7 @@ class ReceiverPreferences{
 // na diagramie UML wszystkie pola i metody maja byc publiczne, ale postanowilem ze pola zrobie prywatne
 
 public:
-    using preferences_t = std::map<IPackageReceiver*, double>; // nie wiem po co te aliasy
+    using preferences_t = std::map<IPackageReceiver*, double>;
     using const_iterator = preferences_t::const_iterator;
 
     explicit ReceiverPreferences(ProbabilityGenerator* pg = &probability_generator): probability_value_(pg){} //sprawdzic czy w konstruktorze nie ma tez byc preferencji
