@@ -19,7 +19,7 @@ class IPackageReceiver{
     virtual void receive_package(Package&& p) = 0;
     virtual  ElementID get_id() const = 0;
 //#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
-//    virtual ReceiverType get_receiver_type() = 0;
+    virtual ReceiverType get_receiver_type() = 0;
 //#endif
 };
 
@@ -69,8 +69,6 @@ class Ramp: public PackageSender{
 public:
     Ramp(ElementID id, TimeOffset di): PackageSender(), ramp_id_(id), di_ramp(di) {}
 
-
-    ~Ramp() = default;
     void deliver_goods(Time t);
     [[nodiscard]] const TimeOffset& get_delivery_interval() const {return di_ramp; };
     [[nodiscard]] const ElementID& get_id() const {return ramp_id_; };
@@ -87,7 +85,9 @@ public:
 
     void do_work(Time t);
     void receive_package(Package&& p) override{q_->push(std::move(p));}
-//    ReceiverType get_receiver_type() override {return ReceiverType::WORKER;}
+//#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
+    ReceiverType get_receiver_type() override {return ReceiverType::WORKER;}
+//#endif
     ElementID get_id() const override {return id_;}
     TimeOffset get_processing_duration() const{return pd_;};
     Time get_package_processing_start_time() const{return t_;};
@@ -105,9 +105,9 @@ public:
 
 
     ElementID get_id() const override {return id_;}
-
-//    ReceiverType get_receiver_type() override{return ReceiverType::STOREHOUSE;}
-
+//#if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
+    ReceiverType get_receiver_type() override{return ReceiverType::STOREHOUSE;}
+//#endif
     void receive_package(Package&& p) override{push(std::move(p));}
 protected:
     ElementID id_;

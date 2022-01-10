@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(include)
 
 set(SOURCE_FILES
-#        src/factory.cpp
+        src/factory.cpp
         src/helpers.cpp
         src/nodes.cpp
         src/package.cpp
