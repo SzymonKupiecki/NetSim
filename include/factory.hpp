@@ -62,6 +62,13 @@ public:
     //REST
     bool is_consistent();
 
+    void do_deliveres(Time t);
+
+    void do_package_passing();
+
+    void do_work(Time t);
+
+
 private:
     NodeCollection<Ramp> ramps_;
     NodeCollection<Worker> workers_;
