@@ -67,7 +67,7 @@ protected:
 
 class Ramp: public PackageSender{
 public:
-    Ramp(ElementID id, TimeOffset di);
+    Ramp(ElementID id, TimeOffset di): ramp_id_(id), di_ramp(di) {}
 
     ~Ramp() = default;
     void deliver_goods(Time t); //TODO: test, zamienic na modulo
@@ -76,15 +76,17 @@ public:
 
 
 private:
+    ElementID ramp_id_;
+
     Time last_delivery_time;
     TimeOffset di_ramp;
-
-    ElementID ramp_id_;
 };
 class Worker: public PackageSender, public IPackageReceiver, public IPackageQueue{
 public:
-    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): id_(id), pd_(pd), q_(q) {}
+    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): id_(id), pd_(pd), q_(std::move(q)) {}
     void do_work(Time t);
+    void receive_package(Package&& p) override{q_->push(std::move(p));}
+    ElementID get_id() override {return id_;}
     TimeOffset get_processing_duration() const{return pd_;};
     Time get_package_processing_start_time() const{return t_;};
 
@@ -97,11 +99,13 @@ protected:
 
 class Storehouse: public IPackageReceiver, public IPackageStockpile{
 public:
-    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d): id_(id), d_(std::move(d)) {}
+
+    ElementID get_id() override {return id_;}
+
+    void receive_package(Package&& p) override{push(std::move(p));}
 protected:
     ElementID id_;
     std::unique_ptr<IPackageStockpile> d_;
-    static std::set<ElementID> assigned_IDs;
-    static std::set<ElementID> freed_IDs;
 };
 #endif

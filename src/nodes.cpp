@@ -51,11 +51,6 @@ void PackageSender::send_package(){
     chosen_reciver->receive_package(std::move(package_to_send));
 }
 
-Ramp::Ramp(ElementID id, TimeOffset di){
-    ramp_id_ = id;
-    di_ramp = di; //czas miedzy dostawami
-}
-
 void Ramp::deliver_goods(Time t) {
     if((t - last_delivery_time) == di_ramp){ //sprawdza czy w danej turze jest dostawa
         Package new_package; //tworzy nowy produkt
@@ -64,83 +59,14 @@ void Ramp::deliver_goods(Time t) {
         last_delivery_time = t; //nowy czas dostawy
     }
 }
-// Inicjalizacja statycznych pol klasy
-std::set<ElementID> Worker::assigned_IDs;
-std::set<ElementID> Worker::freed_IDs;
 
-//Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q = std::make_unique<IPackageQueue>(PackageQueueType::FIFO)){
-//    id_ = id;
-//    pd_ = pd;
-//    q_ = q;
-//}
-Worker::Worker(ElementID id){
-    id_ = id;
-    assigned_IDs.insert(id);
-}
-// Dodanie usuwanego ID do zwolnionych ID
-Worker::~Worker() {
-    freed_IDs.insert(id_);
-}
 void Worker::do_work(Time t){
     if(sending_bufor_.has_value()) {
-        if(t - t_ = pd_){
-            sending_bufor.send_package();
-        }
+        if((t - t_) == pd_){send_package();}
     }
     else{
-        sending_bufor.push_package(q_.pop());
+        push_package(q_->pop());
         t_ = t;
     }
 }
-void Worker::receive_package(Package&& p){
-    q_.push(std::move(p));
-}
-void Worker::get_id() {return id_;};
 
-std::set<ElementID> Storehouse::assigned_IDs;
-std::set<ElementID> Storehouse::freed_IDs;
-
-Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d){
-    id_ = id;
-    d_ = d;
-    //jesli sa jakies zwolnione ID
-    if(not freed_IDs.empty()){
-        id_ = *freed_IDs.begin(); // set jest posortowany
-        freed_IDs.erase(freed_IDs.begin()); //usuwanie zajetego ID
-    }
-        // jesli nie
-    else{
-        auto last_element = assigned_IDs.end();
-        if(not assigned_IDs.empty()){last_element--;} //wskaznik na ostatni element
-        // w przypadku pierwszej inicjalizacji
-        if(assigned_IDs.empty()){id_ = 1;}
-            //na wypadek wczesniejszej inicjalizacji np. Worker(2) bez Worker(1)
-        else if(assigned_IDs.size() != *last_element){
-            for(ElementID i = 1; i < *last_element; i++){
-                if(assigned_IDs.count(i) == 0){
-                    id_ = i;
-                    break;
-                }
-            }
-        }
-        else{
-            id_ = *last_element + 1;
-        }
-        assigned_IDs.insert(id_); // set nie przechowuje duplikatow
-    }
-}
-Storehouse::Storehouse(ElementID id){
-    id_ = id;
-    assigned_IDs.insert(id);
-}
-// Dodanie usuwanego ID do zwolnionych ID
-Storehouse::~Storehouse() {
-    freed_IDs.insert(id_);
-}
-void Storehouse::receive_package(Package&& p){
-    queue_.push(std::move(p));
-}
-
-void Storehouse::get_id(){
-    return id_;
-}
