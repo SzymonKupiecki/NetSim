@@ -9,6 +9,7 @@
 #include "helpers.hpp"
 #include "package.hpp"
 #include "storage_types.hpp"
+#include "config.hpp"
 
 enum class ReceiverType{
     WORKER, STOREHOUSE
@@ -99,7 +100,7 @@ protected:
     Time t_=0;
 };
 
-class Storehouse: public IPackageReceiver, public IPackageStockpile{
+class Storehouse: public IPackageReceiver{
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d = std::make_unique<IPackageStockpile>()): id_(id), d_(std::move(d)) {}
 
@@ -107,7 +108,7 @@ public:
 #if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
     ReceiverType get_receiver_type() override{return ReceiverType::STOREHOUSE;}
 #endif
-    void receive_package(Package&& p) override{push(std::move(p));}
+    void receive_package(Package&& p) override{d_->push(std::move(p));}
 protected:
     ElementID id_;
     std::unique_ptr<IPackageStockpile> d_;

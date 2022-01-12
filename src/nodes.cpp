@@ -46,12 +46,15 @@ IPackageReceiver* ReceiverPreferences::choose_receiver(){
 }
 
 void PackageSender::send_package(){
-    IPackageReceiver* chosen_reciver = receiver_preferences_.choose_receiver(); //wybiera odbiorce
+    if(sending_bufor_.has_value()) {
+        IPackageReceiver *chosen_reciver = receiver_preferences_.choose_receiver(); //wybiera odbiorce
 
-    Package package_to_send = std::move(sending_bufor_.value()); //z tego co czytalem std::move nie dziala poprawnie dla std::optional
-    sending_bufor_.reset();
+        Package package_to_send = std::move(
+                sending_bufor_.value()); //z tego co czytalem std::move nie dziala poprawnie dla std::optional
+        sending_bufor_.reset();
 
-    chosen_reciver->receive_package(std::move(package_to_send));
+        chosen_reciver->receive_package(std::move(package_to_send));
+    }
 }
 
 void Ramp::deliver_goods(Time t) {
