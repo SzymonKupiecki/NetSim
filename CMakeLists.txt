@@ -3,12 +3,12 @@ project(NetSim)
 
 set(CMAKE_CXX_STANDARD 17)
 
-#add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wconversion)
+add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wconversion)
 
 include_directories(include)
 
 set(SOURCE_FILES
-        src/factory.cpp
+#        src/factory.cpp
         src/helpers.cpp
         src/nodes.cpp
         src/package.cpp
@@ -35,6 +35,7 @@ target_include_directories(NetSim_test PUBLIC
         mocks
         )
 
+target_compile_definitions(NetSim_test PUBLIC EXERCISE_ID=EXERCISE_ID_NODES)
 add_subdirectory(googletest-master)
 
 target_link_libraries(NetSim_test gmock)
