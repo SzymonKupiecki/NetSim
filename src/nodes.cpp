@@ -26,7 +26,7 @@ void ReceiverPreferences::remove_receiver(IPackageReceiver* r){
 }
 
 IPackageReceiver* ReceiverPreferences::choose_receiver(){
-    double random = (*probability_value_)(); //warosc od 0 do 1 //TODO: sprawdzic funkcjonalnosc
+    double random = (probability_value_)(); //warosc od 0 do 1
     std::vector<double> steps{0};
     double sth;
     for(auto& reciver: preferences_){
