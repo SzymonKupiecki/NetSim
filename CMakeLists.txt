@@ -8,7 +8,7 @@ add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wconversi
 include_directories(include)
 
 set(SOURCE_FILES
-#        src/factory.cpp
+        src/factory.cpp
         src/helpers.cpp
         src/nodes.cpp
         src/package.cpp
@@ -24,7 +24,8 @@ set(SOURCE_FILES_TESTS
         test/testing_tests.cpp
         test/test_package.cpp
         test/test_storage_types.cpp
-        test/test_nodes.cpp
+#        test/test_nodes.cpp
+        test/test_Factory.cpp
         )
 
 add_executable(NetSim_test ${SOURCE_FILES} ${SOURCE_FILES_TESTS} test/main_gtest.cpp)
@@ -35,7 +36,8 @@ target_include_directories(NetSim_test PUBLIC
         mocks
         )
 
-target_compile_definitions(NetSim_test PUBLIC EXERCISE_ID=EXERCISE_ID_NODES)
+target_compile_definitions(NetSim_test PUBLIC EXERCISE_ID=EXERCISE_ID_FACTORY)
+target_compile_definitions(own_tests PUBLIC EXERCISE_ID=EXERCISE_ID_FACTORY)
 add_subdirectory(googletest-master)
 
 target_link_libraries(NetSim_test gmock)

@@ -1,8 +1,52 @@
 #include "factory.hpp"
 
-template<typename Node>
-void Factory::remove_receiver(NodeCollection<Node>& collection, ElementID id) {
-    Node *node_ptr = &(*(collection.find_by_id(id)));
+//template<typename Node>
+//void Factory::remove_receiver(NodeCollection<Node>& collection, ElementID id) {
+//    auto iterator = collection.find_by_id(id);
+//    if(iterator == collection.end()){return;}
+//    Node *node_ptr = &(*(collection.find_by_id(id)));
+//    ReceiverType object_type = node_ptr->get_receiver_type();
+//    IPackageReceiver *i_package_ptr; //inaczej sie rzuca ze niby niezdefiniowany jak w srodku if go definiuje
+//    if (object_type == ReceiverType::WORKER ||object_type == ReceiverType::STOREHOUSE) {
+//        i_package_ptr = dynamic_cast<IPackageReceiver *>(node_ptr);
+//    } else { throw; }
+//    //usuwanie polaczen miedzy dostawcami
+//    //i_package_ptr jednoznacznie definiuje typ obiektu
+//    for (auto &worker: workers_) {
+//        worker.receiver_preferences_.remove_receiver(i_package_ptr);
+//    }
+//    for (auto &ramp: ramps_) {
+//        ramp.receiver_preferences_.remove_receiver(i_package_ptr);
+//    }
+//    //usuwanie samego obiektu
+//    if(object_type == ReceiverType::WORKER){workers_.remove_by_id(id);}
+//    else{storehouses_.remove_by_id(id);}
+//}
+void Factory::remove_receiver(NodeCollection<Worker>& collection, ElementID id) {
+    auto iterator = collection.find_by_id(id);
+    if(iterator == collection.end()){return;}
+    Worker *node_ptr = &(*(iterator));
+    ReceiverType object_type = node_ptr->get_receiver_type();
+    IPackageReceiver *i_package_ptr; //inaczej sie rzuca ze niby niezdefiniowany jak w srodku if go definiuje
+    if (object_type == ReceiverType::WORKER ||object_type == ReceiverType::STOREHOUSE) {
+        i_package_ptr = dynamic_cast<IPackageReceiver *>(node_ptr);
+    } else { throw; }
+    //usuwanie polaczen miedzy dostawcami
+    //i_package_ptr jednoznacznie definiuje typ obiektu
+    for (auto &worker: workers_) {
+        worker.receiver_preferences_.remove_receiver(i_package_ptr);
+    }
+    for (auto &ramp: ramps_) {
+        ramp.receiver_preferences_.remove_receiver(i_package_ptr);
+    }
+    //usuwanie samego obiektu
+    if(object_type == ReceiverType::WORKER){workers_.remove_by_id(id);}
+    else{storehouses_.remove_by_id(id);}
+}
+void Factory::remove_receiver(NodeCollection<Storehouse>& collection, ElementID id) {
+    auto iterator = collection.find_by_id(id);
+    if(iterator == collection.end()){return;}
+    Storehouse *node_ptr = &(*(collection.find_by_id(id)));
     ReceiverType object_type = node_ptr->get_receiver_type();
     IPackageReceiver *i_package_ptr; //inaczej sie rzuca ze niby niezdefiniowany jak w srodku if go definiuje
     if (object_type == ReceiverType::WORKER ||object_type == ReceiverType::STOREHOUSE) {
@@ -38,7 +82,7 @@ bool Factory::is_consistent() {
         }
         return true;
     }
-    catch (std::string& error_message){
+    catch (NoReceiverException& error_message){
         return false;
     }
 }
@@ -47,7 +91,7 @@ bool Factory::does_receiver_has_reachable_storehouse(PackageSender* sender,std::
     if(colour[sender] == NodeColour::VERIFIED){return true;}
     //oznacz jako odwiedzony
     colour[sender] = NodeColour::VISITED;
-    if(sender->receiver_preferences_.get_preferences().empty()){throw(std::logic_error("Sender doesnt have receivers others than himself"));}
+    if(sender->receiver_preferences_.get_preferences().empty()){throw NoReceiverException();}
     bool does_sender_has_at_least_one_receiver_other_than_himself = false;
     for(const auto& [receiver, trash]: sender->receiver_preferences_.get_preferences()){
         if(receiver->get_receiver_type() == ReceiverType::STOREHOUSE){
@@ -66,7 +110,7 @@ bool Factory::does_receiver_has_reachable_storehouse(PackageSender* sender,std::
     }
     colour[sender] = NodeColour::VERIFIED;
     if(does_sender_has_at_least_one_receiver_other_than_himself){return true;}
-    else{throw(std::logic_error("Sender doesnt have receivers other than himself"));}
+    else{throw NoReceiverException();}
 
 }
 

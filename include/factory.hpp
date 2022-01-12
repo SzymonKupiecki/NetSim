@@ -40,7 +40,7 @@ public:
     // RAMPS
     void add_ramp(Ramp&& ramp) {ramps_.add(ramp);}
     void remove_ramp(ElementID id) {ramps_.remove_by_id(id);}
-//    [[nodiscard]] NodeCollection<Ramp>::iterator find_ramp_by_id(ElementID id) {return ramps_.find_by_id(id);}
+    [[nodiscard]] NodeCollection<Ramp>::iterator find_ramp_by_id(ElementID id) {return ramps_.find_by_id(id);}
     [[nodiscard]] NodeCollection<Ramp>::const_iterator find_ramp_by_id(ElementID id) const{return ramps_.find_by_id(id);}
     [[nodiscard]] NodeCollection<Ramp>::const_iterator ramp_cbegin() const{return ramps_.cbegin();}
     [[nodiscard]] NodeCollection<Ramp>::const_iterator ramp_cend() const{return ramps_.cend();}
@@ -51,7 +51,7 @@ public:
     // WORKERS
     void add_worker(Worker&& worker) {workers_.add(worker);}
     void remove_worker(ElementID id) {remove_receiver(workers_, id);}//USUWANIE POLACZEN
-//    [[nodiscard]] NodeCollection<Worker>::iterator find_worker_by_id(ElementID id) {return workers_.find_by_id(id);}
+    [[nodiscard]] NodeCollection<Worker>::iterator find_worker_by_id(ElementID id) {return workers_.find_by_id(id);}
     [[nodiscard]] NodeCollection<Worker>::const_iterator find_worker_by_id(ElementID id) const{return workers_.find_by_id(id);}
     [[nodiscard]] NodeCollection<Worker>::const_iterator worker_cbegin() const{return workers_.cbegin();}
     [[nodiscard]] NodeCollection<Worker>::const_iterator worker_cend() const{return workers_.cend();}
@@ -62,7 +62,7 @@ public:
     // STOREHOUSES
     void add_storehouse(Storehouse&& storehouse) {storehouses_.add(storehouse);}
     void remove_storehouse(ElementID id) {remove_receiver(storehouses_, id);}//USUWANIE POLACZEN
-//    [[nodiscard]] NodeCollection<Storehouse>::iterator find_storehouse_by_id(ElementID id) {return storehouses_.find_by_id(id);}
+    [[nodiscard]] NodeCollection<Storehouse>::iterator find_storehouse_by_id(ElementID id) {return storehouses_.find_by_id(id);}
     [[nodiscard]] NodeCollection<Storehouse>::const_iterator find_storehouse_by_id(ElementID id) const{return storehouses_.find_by_id(id);}
     [[nodiscard]] NodeCollection<Storehouse>::const_iterator storehouse_cbegin() const{return storehouses_.cbegin();}
     [[nodiscard]] NodeCollection<Storehouse>::const_iterator storehouse_cend() const{return storehouses_.cend();}
@@ -85,7 +85,14 @@ private:
     NodeCollection<Worker> workers_;
     NodeCollection<Storehouse> storehouses_;
     bool does_receiver_has_reachable_storehouse(PackageSender*,std::map<PackageSender*,NodeColour> colour);
-    template<typename Node>
-    void remove_receiver(NodeCollection<Node>& collection, ElementID id);
+//    template<typename Node>
+//    void remove_receiver(NodeCollection<Node>& collection, ElementID id);
+    void remove_receiver(NodeCollection<Worker>& collection, ElementID id);
+    void remove_receiver(NodeCollection<Storehouse>& collection, ElementID id);
+};
+
+class NoReceiverException: public std::logic_error{
+public:
+    NoReceiverException(): std::logic_error("Sender doesnt have receivers or have only himself") {}
 };
 #endif

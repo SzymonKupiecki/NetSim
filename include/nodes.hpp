@@ -41,7 +41,7 @@ public:
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver();
-    const preferences_t& get_preferences(){ return preferences_; };
+    const preferences_t& get_preferences() const{ return preferences_; };
 
 protected: //TODO: czy zostawic prywatne
     preferences_t preferences_; //sluzy do przechowywania odbiorcow i przawdopodobienstwa wybrania odbiorcy
