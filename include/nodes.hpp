@@ -103,7 +103,6 @@ class Storehouse: public IPackageReceiver, public IPackageStockpile{
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d = std::make_unique<IPackageStockpile>()): id_(id), d_(std::move(d)) {}
 
-
     ElementID get_id() const override {return id_;}
 #if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
     ReceiverType get_receiver_type() override{return ReceiverType::STOREHOUSE;}
