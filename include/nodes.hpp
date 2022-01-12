@@ -18,6 +18,7 @@ class IPackageReceiver{
     public:
     virtual void receive_package(Package&& p) = 0;
     virtual  ElementID get_id() const = 0;
+    virtual ReceiverType get_receiver_type() = 0;
 #if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
     virtual ReceiverType get_receiver_type() = 0;
 #endif
@@ -85,6 +86,7 @@ public:
 
     void do_work(Time t);
     void receive_package(Package&& p) override{q_->push(std::move(p));}
+    ReceiverType get_receiver_type() {return ReceiverType::WORKER;};
 #if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
     ReceiverType get_receiver_type() override {return ReceiverType::WORKER;}
 #endif
@@ -103,7 +105,7 @@ class Storehouse: public IPackageReceiver, public IPackageStockpile{
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d = std::make_unique<IPackageStockpile>()): id_(id), d_(std::move(d)) {}
 
-
+    ReceiverType get_receiver_type() {return ReceiverType::STOREHOUSE;};
     ElementID get_id() const override {return id_;}
 #if (defined EXERCISE_ID && EXERCISE_ID != EXERCISE_ID_NODES)
     ReceiverType get_receiver_type() override{return ReceiverType::STOREHOUSE;}
