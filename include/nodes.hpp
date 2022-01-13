@@ -92,6 +92,7 @@ public:
     ElementID get_id() const override {return id_;}
     TimeOffset get_processing_duration() const{return pd_;};
     Time get_package_processing_start_time() const{return t_;};
+    PackageQueueType get_queue_type() {return q_->get_queue_type();}
 
 protected:
     ElementID id_;

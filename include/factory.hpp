@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <map>
 #include <stdexcept>
+#include <sstream>
 
 enum class NodeColour{
     UNVISITED, VISITED, VERIFIED
@@ -95,4 +96,36 @@ class NoReceiverException: public std::logic_error{
 public:
     NoReceiverException(): std::logic_error("Sender doesnt have receivers or have only himself") {}
 };
+
+enum class ElementType{
+    RAMP, WORKER, STOREHOUSE, LINK
+};
+
+struct ParsedLineData{
+    ElementType element_type_;
+    std::map<std::string, std::string> parameters_;
+
+    ParsedLineData() = delete;
+
+    ParsedLineData(ElementType t, std::map<std::string, std::string> m): element_type_(t), parameters_(std::move(m)) {}
+
+    std::map<std::string, std::string> get_map() {return parameters_;}
+
+    ElementType get_type() {return element_type_;}
+
+//    explicit ParsedLineData(ElementType t): element_type_(t) {}
+//
+//    explicit ParsedLineData(std::map<std::string, std::string> m): parameters_(std::move(m)) {}
+};
+
+ParsedLineData parse_line(std::string line);
+
+Factory load_factory_structure(std::istream& is);
+
+class WrongLineError: public std::logic_error{
+public:
+    WrongLineError(): std::logic_error("This line doesnt contain correct data") {}
+};
+
+bool is_node_or_link_correct(ParsedLineData candidate);
 #endif
