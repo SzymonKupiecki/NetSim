@@ -94,6 +94,8 @@ public:
     Time get_package_processing_start_time() const{return t_;};
     PackageQueueType get_queue_type() {return q_->get_queue_type();}
 
+    IPackageQueue* get_queue() const{return q_.get();}
+
 protected:
     ElementID id_;
     TimeOffset pd_;
