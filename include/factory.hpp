@@ -128,4 +128,7 @@ public:
 };
 
 bool is_node_or_link_correct(ParsedLineData candidate);
+
+void save_factory_structure(Factory& factory, std::ostream& os);
+
 #endif
