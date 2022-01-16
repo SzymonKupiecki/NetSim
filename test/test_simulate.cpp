@@ -12,7 +12,7 @@ using ::testing::_;
 TEST(SimulationTest, Simulate) {
 
     Factory factory;
-    factory.add_ramp(Ramp(1, 10));
+    factory.add_ramp(Ramp(1, 4));
     factory.add_worker(Worker(1, 1, std::make_unique<PackageQueue>(PackageQueueType::FIFO)));
     factory.add_storehouse(Storehouse(1));
 

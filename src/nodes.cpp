@@ -58,7 +58,7 @@ void PackageSender::send_package(){
 }
 
 void Ramp::deliver_goods(Time t) {
-    if( (t+1) % di_ramp == 0){ //sprawdza czy w danej turze jest dostawa
+    if( (t-1) % di_ramp == 0){ //sprawdza czy w danej turze jest dostawa
         Package new_package; //tworzy nowy produkt
         Ramp::push_package(std::move(new_package)); //przekazuje do bufora (funkcjonalnosc package sender)
 
@@ -68,8 +68,10 @@ void Ramp::deliver_goods(Time t) {
 void Worker::do_work(Time t){
     if(sending_bufor_.has_value()) {
         if((t - t_) == pd_){send_package();}
-    }
-    else{
+
+    } else if(get_queue()->empty()){
+        //TODO:chyba po prostu nic nie robi
+    }else{
         push_package(q_->pop());
         t_ = t;
     }
