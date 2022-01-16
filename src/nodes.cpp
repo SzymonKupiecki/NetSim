@@ -78,6 +78,11 @@ void Worker::do_work(Time t){
 
         semiproduct_bufor_ = q_->pop();
 //        push_package(q_->pop());
+
+        if((t - t_) == (pd_-1)){ //robotnik skonczyl przetwarzanie
+            push_package(std::move(semiproduct_bufor_.value()));
+            semiproduct_bufor_.reset(); //z tego co czytalem std::move nie dziala poprawnie dla std::optional
+        }
         t_ = t;
     }
 }
