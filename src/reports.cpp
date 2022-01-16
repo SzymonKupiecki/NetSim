@@ -90,7 +90,7 @@ void generate_simulation_turn_report(const Factory &f, std::ostream &os, Time t)
     os << "== WORKERS ==" << '\n';
     for (auto it = f.worker_begin(); it != f.worker_end(); it++) {
         os << '\n' << "WORKER #" << std::to_string(it->get_id()) << '\n';
-        if (it->get_processing_buffer() != std::nullopt) {
+        if (it->get_processing_buffer().has_value()) {
             os << "  PBuffer: #" << it->get_processing_buffer()->get_id() << " ";
             os << "(pt = " << it->get_package_processing_start_time() << ")" << '\n';
         } else

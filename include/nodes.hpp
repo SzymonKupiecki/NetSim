@@ -82,7 +82,7 @@ private:
 };
 class Worker: public PackageSender, public IPackageReceiver{
 public:
-    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q = std::make_unique<IPackageQueue>(PackageQueueType::LIFO)): PackageSender(), IPackageReceiver(), id_(id), pd_(pd), q_(std::move(q)), t_(0) {}
+    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q = std::make_unique<IPackageQueue>(PackageQueueType::LIFO)): PackageSender(), IPackageReceiver(), id_(id), pd_(pd), q_(std::move(q)), t_(1) {}
 
     void do_work(Time t);
     void receive_package(Package&& p) override{q_->push(std::move(p));}
@@ -105,7 +105,7 @@ protected:
     ElementID id_;
     TimeOffset pd_;
     std::unique_ptr<IPackageQueue> q_;
-    Time t_=0;
+    Time t_=1;
 };
 
 class Storehouse: public IPackageReceiver{

@@ -76,4 +76,3 @@ void Worker::do_work(Time t){
         t_ = t;
     }
 }
-
