@@ -57,7 +57,7 @@ public:
 
     void send_package(); //wysyla przetworzona wartosc do odbiorcy
     void push_package(Package&& package){ sending_bufor_ = std::move(package); }; //sluzy do wstawiania wartosci do bufora
-    const std::optional<Package>& get_sending_buffer(){ return sending_bufor_; };
+    const std::optional<Package> & get_sending_buffer() const { return sending_bufor_; };
 
     ReceiverPreferences receiver_preferences_;
 
@@ -99,6 +99,8 @@ public:
     [[nodiscard]] typename IPackageStockpile::const_iterator cbegin() const {return q_->cbegin();}
     [[nodiscard]] typename IPackageStockpile::const_iterator cend() const {return q_->cend();}
 
+    [[nodiscard]] std::optional<Package>& get_processing_buffer() const { return (std::optional<Package>&) q_; }
+
 protected:
     ElementID id_;
     TimeOffset pd_;
@@ -118,7 +120,7 @@ public:
 
     [[nodiscard]] typename IPackageStockpile::const_iterator cbegin() const {return d_->cbegin();}
     [[nodiscard]] typename IPackageStockpile::const_iterator cend() const {return d_->cend();}
-
+    [[nodiscard]]  IPackageStockpile* get_queue() const { return d_.get(); }
 protected:
     ElementID id_;
     std::unique_ptr<IPackageStockpile> d_;
