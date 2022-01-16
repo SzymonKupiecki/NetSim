@@ -96,6 +96,9 @@ public:
 
     IPackageQueue* get_queue() const{return q_.get();}
 
+    [[nodiscard]] typename IPackageStockpile::const_iterator cbegin() const {return q_->cbegin();}
+    [[nodiscard]] typename IPackageStockpile::const_iterator cend() const {return q_->cend();}
+
 protected:
     ElementID id_;
     TimeOffset pd_;
@@ -112,6 +115,10 @@ public:
     ReceiverType get_receiver_type() override{return ReceiverType::STOREHOUSE;}
 #endif
     void receive_package(Package&& p) override{d_->push(std::move(p));}
+
+    [[nodiscard]] typename IPackageStockpile::const_iterator cbegin() const {return d_->cbegin();}
+    [[nodiscard]] typename IPackageStockpile::const_iterator cend() const {return d_->cend();}
+
 protected:
     ElementID id_;
     std::unique_ptr<IPackageStockpile> d_;

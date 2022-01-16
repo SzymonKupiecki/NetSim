@@ -58,7 +58,7 @@ void PackageSender::send_package(){
 }
 
 void Ramp::deliver_goods(Time t) {
-    if( (t-1) % di_ramp == 0){ //sprawdza czy w danej turze jest dostawa
+    if( (t+1) % di_ramp == 0){ //sprawdza czy w danej turze jest dostawa
         Package new_package; //tworzy nowy produkt
         Ramp::push_package(std::move(new_package)); //przekazuje do bufora (funkcjonalnosc package sender)
 
