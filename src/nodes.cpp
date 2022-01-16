@@ -66,12 +66,18 @@ void Ramp::deliver_goods(Time t) {
 }
 
 void Worker::do_work(Time t){
-    if(sending_bufor_.has_value()) {
-        if((t - t_) == pd_){send_package();}
+    if(semiproduct_bufor_.has_value()){
+
+        if((t - t_) == pd_){ //robotnik skonczyl przetwarzanie
+            push_package(std::move(semiproduct_bufor_.value()));
+            semiproduct_bufor_.reset(); //z tego co czytalem std::move nie dziala poprawnie dla std::optional
+        }
 
     } else if(get_queue()->empty()){
     }else{
-        push_package(q_->pop());
+
+        semiproduct_bufor_ = q_->pop();
+//        push_package(q_->pop());
         t_ = t;
     }
 }

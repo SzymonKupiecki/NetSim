@@ -99,13 +99,15 @@ public:
     [[nodiscard]] typename IPackageStockpile::const_iterator cbegin() const {return q_->cbegin();}
     [[nodiscard]] typename IPackageStockpile::const_iterator cend() const {return q_->cend();}
 
-    [[nodiscard]] std::optional<Package>& get_processing_buffer() const { return (std::optional<Package>&) q_; }
+    [[nodiscard]] std::optional<Package>& get_processing_buffer() const { return (std::optional<Package>&) semiproduct_bufor_; }
 
 protected:
     ElementID id_;
     TimeOffset pd_;
     std::unique_ptr<IPackageQueue> q_;
     Time t_=1;
+
+    std::optional<Package> semiproduct_bufor_;
 };
 
 class Storehouse: public IPackageReceiver{
