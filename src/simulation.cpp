@@ -28,13 +28,16 @@ void simulate(Factory& f, TimeOffset d, const std::function<void (Factory&, Time
     }
 }
 
-//class IntervalReportNotifier{
-//public:
-//    IntervalReportNotifier(TimeOffset to): time_offset_(to) {};
-//
-//    bool should_generate_report(Time t){};
-//
-//private:
-//    TimeOffset time_offset_;
-//
-//};
+bool IntervalReportNotifier::should_generate_report(Time t){
+    if( ((t-1) % time_offset_) == 0){
+        return true;
+    }
+    return false;
+}
+
+bool SpecificTurnsReportNotifie::should_generate_report(Time t){
+    if(turns_.count(t)){
+        return true;
+    }
+    return false;
+}
