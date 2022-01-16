@@ -3,7 +3,7 @@
 /*!
  Funkcja sluzaca do przeprowadzania symulacji sieci.
  @param[in] f
- @param[in]  d //TODO: wydaje mi sie ze to jest czas symulacji
+ @param[in]  d
  @param[out]  rf funkcja sluzaca do generowania raportow
  */
 void simulate(Factory& f, TimeOffset d, const std::function<void (Factory&, Time)>& rf){

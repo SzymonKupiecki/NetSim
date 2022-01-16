@@ -70,7 +70,6 @@ void Worker::do_work(Time t){
         if((t - t_) == pd_){send_package();}
 
     } else if(get_queue()->empty()){
-        //TODO:chyba po prostu nic nie robi
     }else{
         push_package(q_->pop());
         t_ = t;
