@@ -3,7 +3,7 @@ project(NetSim)
 
 set(CMAKE_CXX_STANDARD 17)
 
-#add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wconversion -Werror=switch)
+add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wconversion -Werror=switch)
 
 include_directories(include)
 

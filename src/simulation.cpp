@@ -24,7 +24,7 @@ void simulate(Factory& f, TimeOffset d, const std::function<void (Factory&, Time
         f.do_work(simulation_time);
 
         //4. raport
-//        rf(f, simulation_time);
+        rf(f, simulation_time);
     }
 }
 
