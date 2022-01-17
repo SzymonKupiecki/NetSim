@@ -68,7 +68,7 @@ void Ramp::deliver_goods(Time t) {
 void Worker::do_work(Time t){
     if(semiproduct_bufor_.has_value()){
 
-        if((t - t_) == pd_){ //robotnik skonczyl przetwarzanie
+        if((t - t_) == pd_-1){ //robotnik skonczyl przetwarzanie
             push_package(std::move(semiproduct_bufor_.value()));
             semiproduct_bufor_.reset(); //z tego co czytalem std::move nie dziala poprawnie dla std::optional
         }
@@ -77,12 +77,13 @@ void Worker::do_work(Time t){
     }else{
 
         semiproduct_bufor_ = q_->pop();
-//        push_package(q_->pop());
+        t_ = t;
 
-        if((t - t_) == (pd_-1)){ //robotnik skonczyl przetwarzanie
+//        if((t - t_) == (pd_-1)){
+        if(pd_ == 1){ //robotnik skonczyl przetwarzanie w tej samej turze
             push_package(std::move(semiproduct_bufor_.value()));
             semiproduct_bufor_.reset(); //z tego co czytalem std::move nie dziala poprawnie dla std::optional
         }
-        t_ = t;
+
     }
 }
