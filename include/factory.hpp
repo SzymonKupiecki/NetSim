@@ -7,6 +7,7 @@
 #include <map>
 #include <stdexcept>
 #include <sstream>
+#include <limits>
 
 enum class NodeColour{
     UNVISITED, VISITED, VERIFIED
