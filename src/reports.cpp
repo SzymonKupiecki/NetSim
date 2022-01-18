@@ -1,6 +1,4 @@
 #include "reports.hpp"
-#include "simulation.hpp"
-
 
 
 bool IntervalReportNotifier::should_generate_report(Time t){
