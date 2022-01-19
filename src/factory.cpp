@@ -287,7 +287,7 @@ bool is_node_or_link_correct(ParsedLineData candidate){
                 if(key == "delivery-interval"){have_interval = true;}
                 try {
                     ElementID v = (unsigned int) std::stoi(value);
-                    if (v < UINT_MAX) { v++; } //#unused variable vibes
+                    if (v < std::numeric_limits<unsigned int>::max()) { v++; } //#unused variable vibes
                 }
                 catch (std::invalid_argument &error_message) {
                     return false;
@@ -308,7 +308,7 @@ bool is_node_or_link_correct(ParsedLineData candidate){
                 if (key == "id" || key == "processing-time") {
                     try {
                         ElementID v = (unsigned int) std::stoi(value);
-                        if (v < UINT_MAX) { v++; } //#unused variable vibes
+                        if (v < std::numeric_limits<unsigned int>::max()) { v++; } //#unused variable vibes
                     }
                     catch (std::invalid_argument &error_message) {
                         return false;
@@ -331,7 +331,7 @@ bool is_node_or_link_correct(ParsedLineData candidate){
                 if (key != "id") { return false; }
                 try {
                     auto v = (unsigned int) std::stoi(value);
-                    if (v < UINT_MAX) { v++; } //#unused variable vibes
+                    if (v < std::numeric_limits<unsigned int>::max()) { v++; } //#unused variable vibes
                 }
                 catch (std::invalid_argument &error_message) {
                     return false;
@@ -359,7 +359,7 @@ bool is_node_or_link_correct(ParsedLineData candidate){
                     } else {
                         try {
                             auto v = (unsigned int) std::stoi(value_decomposition);
-                            if (v < UINT_MAX) { v++; } //#unused variable vibes
+                            if (v < std::numeric_limits<unsigned int>::max()) { v++; } //#unused variable vibes
                         }
                         catch (std::invalid_argument &error_message) {
                             return false;
